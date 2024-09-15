@@ -1,0 +1,4 @@
+kotlin version: 1.9.23
+error message: java.lang.OutOfMemoryError: Java heap space
+
+
