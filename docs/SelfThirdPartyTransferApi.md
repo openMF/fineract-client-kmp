@@ -21,7 +21,7 @@ Api to add third party beneficiary linked to current user.  Parameter Definition
 // Import classes:
 //import org.openapitools.client.*
 //import org.openapitools.client.infrastructure.*
-//import org.openapitools.client.models.*
+//import org.mifos.fineract.client.models.*
 
 val apiClient = ApiClient()
 apiClient.setCredentials("USERNAME", "PASSWORD")
@@ -63,7 +63,7 @@ Api to delete third party beneficiary linked to current user.  Example Requests:
 // Import classes:
 //import org.openapitools.client.*
 //import org.openapitools.client.infrastructure.*
-//import org.openapitools.client.models.*
+//import org.mifos.fineract.client.models.*
 
 val apiClient = ApiClient()
 apiClient.setCredentials("USERNAME", "PASSWORD")
@@ -105,7 +105,7 @@ Api to get all third party beneficiary linked to current user.  Example Requests
 // Import classes:
 //import org.openapitools.client.*
 //import org.openapitools.client.infrastructure.*
-//import org.openapitools.client.models.*
+//import org.mifos.fineract.client.models.*
 
 val apiClient = ApiClient()
 apiClient.setCredentials("USERNAME", "PASSWORD")
@@ -144,7 +144,7 @@ Returns Account Type enumerations. Self User is expected to know office name and
 // Import classes:
 //import org.openapitools.client.*
 //import org.openapitools.client.infrastructure.*
-//import org.openapitools.client.models.*
+//import org.mifos.fineract.client.models.*
 
 val apiClient = ApiClient()
 apiClient.setCredentials("USERNAME", "PASSWORD")
@@ -183,7 +183,7 @@ Api to update third party beneficiary linked to current user.  Example Requests:
 // Import classes:
 //import org.openapitools.client.*
 //import org.openapitools.client.infrastructure.*
-//import org.openapitools.client.models.*
+//import org.mifos.fineract.client.models.*
 
 val apiClient = ApiClient()
 apiClient.setCredentials("USERNAME", "PASSWORD")

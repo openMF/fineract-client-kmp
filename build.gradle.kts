@@ -1,22 +1,16 @@
 import com.vanniktech.maven.publish.MavenPublishBaseExtension
 import com.vanniktech.maven.publish.SonatypeHost
-import org.jetbrains.dokka.gradle.DokkaMultiModuleTask
 import org.jetbrains.dokka.gradle.DokkaTaskPartial
-import org.jetbrains.kotlin.gradle.dsl.KotlinProjectExtension
-import org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile
 
 plugins {
-    alias(libs.plugins.android.application) apply false
-    alias(libs.plugins.android.library) apply false
-    alias(libs.plugins.kotlin.android) apply false
     alias(libs.plugins.kotlin.multiplatform) apply false
     alias(libs.plugins.kotlin.jvm) apply false
-    alias(libs.plugins.ksp) apply false
+    alias(libs.plugins.kotlin.serialization) apply false
     alias(libs.plugins.binary.compatibility.validator)
     alias(libs.plugins.kover) apply false
     alias(libs.plugins.maven) apply false
+    alias(libs.plugins.ksp) apply false
     alias(libs.plugins.dokka)
-    alias(libs.plugins.compose.compiler) apply false
 }
 
 // Maven publishing configuration
@@ -45,10 +39,6 @@ apiValidation {
     nonPublicMarkers.add("kotlin.PublishedApi")
 }
 
-tasks.withType<DokkaMultiModuleTask>().configureEach {
-    outputDirectory = layout.projectDirectory.dir("docs/api")
-}
-
 // dokka and version configuration.
 afterEvaluate {
     tasks.withType<DokkaTaskPartial>().configureEach {
@@ -64,8 +54,9 @@ afterEvaluate {
 subprojects {
     plugins.withId("com.vanniktech.maven.publish.base") {
         configure<MavenPublishBaseExtension> {
-            publishToMavenCentral(SonatypeHost.S01)
+            publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL, automaticRelease = true)
             signAllPublications()
+
             pom {
                 name = project.name
                 description = desc

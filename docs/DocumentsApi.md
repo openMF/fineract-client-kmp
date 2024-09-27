@@ -22,7 +22,7 @@ Note: A document is created using a Multi-part form upload   Body Parts  name : 
 // Import classes:
 //import org.openapitools.client.*
 //import org.openapitools.client.infrastructure.*
-//import org.openapitools.client.models.*
+//import org.mifos.fineract.client.models.*
 
 val apiClient = ApiClient()
 apiClient.setCredentials("USERNAME", "PASSWORD")
@@ -76,7 +76,7 @@ Remove a Document
 // Import classes:
 //import org.openapitools.client.*
 //import org.openapitools.client.infrastructure.*
-//import org.openapitools.client.models.*
+//import org.mifos.fineract.client.models.*
 
 val apiClient = ApiClient()
 apiClient.setCredentials("USERNAME", "PASSWORD")
@@ -122,7 +122,7 @@ Request used to download the file associated with the document  Example Requests
 // Import classes:
 //import org.openapitools.client.*
 //import org.openapitools.client.infrastructure.*
-//import org.openapitools.client.models.*
+//import org.mifos.fineract.client.models.*
 
 val apiClient = ApiClient()
 apiClient.setCredentials("USERNAME", "PASSWORD")
@@ -168,7 +168,7 @@ Example Requests:  clients/1/documents/1   loans/1/documents/1   client_identifi
 // Import classes:
 //import org.openapitools.client.*
 //import org.openapitools.client.infrastructure.*
-//import org.openapitools.client.models.*
+//import org.mifos.fineract.client.models.*
 
 val apiClient = ApiClient()
 apiClient.setCredentials("USERNAME", "PASSWORD")
@@ -214,7 +214,7 @@ Example Requests:  clients/1/documents  client_identifiers/1/documents  loans/1/
 // Import classes:
 //import org.openapitools.client.*
 //import org.openapitools.client.infrastructure.*
-//import org.openapitools.client.models.*
+//import org.mifos.fineract.client.models.*
 
 val apiClient = ApiClient()
 apiClient.setCredentials("USERNAME", "PASSWORD")
@@ -258,7 +258,7 @@ Note: A document is updated using a Multi-part form upload  Body Parts name Name
 // Import classes:
 //import org.openapitools.client.*
 //import org.openapitools.client.infrastructure.*
-//import org.openapitools.client.models.*
+//import org.mifos.fineract.client.models.*
 
 val apiClient = ApiClient()
 apiClient.setCredentials("USERNAME", "PASSWORD")

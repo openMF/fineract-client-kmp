@@ -20,7 +20,7 @@ Mandatory Fields :  type and clientId
 // Import classes:
 //import org.openapitools.client.*
 //import org.openapitools.client.infrastructure.*
-//import org.openapitools.client.models.*
+//import org.mifos.fineract.client.models.*
 
 val apiClient = ApiClient()
 apiClient.setCredentials("USERNAME", "PASSWORD")
@@ -66,7 +66,7 @@ Example Requests:  client/1/addresses   clients/1/addresses?status&#x3D;false,tr
 // Import classes:
 //import org.openapitools.client.*
 //import org.openapitools.client.infrastructure.*
-//import org.openapitools.client.models.*
+//import org.mifos.fineract.client.models.*
 
 val apiClient = ApiClient()
 apiClient.setCredentials("USERNAME", "PASSWORD")
@@ -110,7 +110,7 @@ Configure basicAuth:
 // Import classes:
 //import org.openapitools.client.*
 //import org.openapitools.client.infrastructure.*
-//import org.openapitools.client.models.*
+//import org.mifos.fineract.client.models.*
 
 val apiClient = ApiClient()
 apiClient.setCredentials("USERNAME", "PASSWORD")
@@ -149,7 +149,7 @@ All the address fields can be updated by using update client address API  Mandat
 // Import classes:
 //import org.openapitools.client.*
 //import org.openapitools.client.infrastructure.*
-//import org.openapitools.client.models.*
+//import org.mifos.fineract.client.models.*
 
 val apiClient = ApiClient()
 apiClient.setCredentials("USERNAME", "PASSWORD")

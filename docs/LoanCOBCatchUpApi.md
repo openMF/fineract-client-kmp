@@ -19,7 +19,7 @@ Executes the Loan COB job on every day from the oldest Loan to the current COB b
 // Import classes:
 //import org.openapitools.client.*
 //import org.openapitools.client.infrastructure.*
-//import org.openapitools.client.models.*
+//import org.mifos.fineract.client.models.*
 
 val apiClient = ApiClient()
 apiClient.setCredentials("USERNAME", "PASSWORD")
@@ -58,7 +58,7 @@ Retrieves the COB business date and the oldest COB processed loan
 // Import classes:
 //import org.openapitools.client.*
 //import org.openapitools.client.infrastructure.*
-//import org.openapitools.client.models.*
+//import org.mifos.fineract.client.models.*
 
 val apiClient = ApiClient()
 apiClient.setCredentials("USERNAME", "PASSWORD")
@@ -97,7 +97,7 @@ Retrieves whether Loan COB catch up is running, and the current execution date i
 // Import classes:
 //import org.openapitools.client.*
 //import org.openapitools.client.infrastructure.*
-//import org.openapitools.client.models.*
+//import org.mifos.fineract.client.models.*
 
 val apiClient = ApiClient()
 apiClient.setCredentials("USERNAME", "PASSWORD")

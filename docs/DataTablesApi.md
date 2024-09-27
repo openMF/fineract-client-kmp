@@ -32,7 +32,7 @@ Query values from a registered data table.
 // Import classes:
 //import org.openapitools.client.*
 //import org.openapitools.client.infrastructure.*
-//import org.openapitools.client.models.*
+//import org.mifos.fineract.client.models.*
 
 val apiClient = ApiClient()
 apiClient.setCredentials("USERNAME", "PASSWORD")
@@ -76,7 +76,7 @@ Create a new data table and registers it with the Apache Fineract Core applicati
 // Import classes:
 //import org.openapitools.client.*
 //import org.openapitools.client.infrastructure.*
-//import org.openapitools.client.models.*
+//import org.mifos.fineract.client.models.*
 
 val apiClient = ApiClient()
 apiClient.setCredentials("USERNAME", "PASSWORD")
@@ -118,7 +118,7 @@ Adds a row to the data table.  Note that the default datatable UI functionality 
 // Import classes:
 //import org.openapitools.client.*
 //import org.openapitools.client.infrastructure.*
-//import org.openapitools.client.models.*
+//import org.mifos.fineract.client.models.*
 
 val apiClient = ApiClient()
 apiClient.setCredentials("USERNAME", "PASSWORD")
@@ -164,7 +164,7 @@ Deletes a data table and deregisters it from the Apache Fineract Core applicatio
 // Import classes:
 //import org.openapitools.client.*
 //import org.openapitools.client.infrastructure.*
-//import org.openapitools.client.models.*
+//import org.mifos.fineract.client.models.*
 
 val apiClient = ApiClient()
 apiClient.setCredentials("USERNAME", "PASSWORD")
@@ -206,7 +206,7 @@ Deletes the entry (if it exists) for data tables that are one-to-one with the ap
 // Import classes:
 //import org.openapitools.client.*
 //import org.openapitools.client.infrastructure.*
-//import org.openapitools.client.models.*
+//import org.mifos.fineract.client.models.*
 
 val apiClient = ApiClient()
 apiClient.setCredentials("USERNAME", "PASSWORD")
@@ -250,7 +250,7 @@ Deletes the entry (if it exists) for data tables that are one to many with the a
 // Import classes:
 //import org.openapitools.client.*
 //import org.openapitools.client.infrastructure.*
-//import org.openapitools.client.models.*
+//import org.mifos.fineract.client.models.*
 
 val apiClient = ApiClient()
 apiClient.setCredentials("USERNAME", "PASSWORD")
@@ -296,7 +296,7 @@ Deregisters a data table. It will no longer be available through the API.
 // Import classes:
 //import org.openapitools.client.*
 //import org.openapitools.client.infrastructure.*
-//import org.openapitools.client.models.*
+//import org.mifos.fineract.client.models.*
 
 val apiClient = ApiClient()
 apiClient.setCredentials("USERNAME", "PASSWORD")
@@ -338,7 +338,7 @@ Lists a registered data table details and the Apache Fineract Core application t
 // Import classes:
 //import org.openapitools.client.*
 //import org.openapitools.client.infrastructure.*
-//import org.openapitools.client.models.*
+//import org.mifos.fineract.client.models.*
 
 val apiClient = ApiClient()
 apiClient.setCredentials("USERNAME", "PASSWORD")
@@ -380,7 +380,7 @@ Gets the entry (if it exists) for data tables that are one to one with the appli
 // Import classes:
 //import org.openapitools.client.*
 //import org.openapitools.client.infrastructure.*
-//import org.openapitools.client.models.*
+//import org.mifos.fineract.client.models.*
 
 val apiClient = ApiClient()
 apiClient.setCredentials("USERNAME", "PASSWORD")
@@ -424,7 +424,7 @@ Configure basicAuth:
 // Import classes:
 //import org.openapitools.client.*
 //import org.openapitools.client.infrastructure.*
-//import org.openapitools.client.models.*
+//import org.mifos.fineract.client.models.*
 
 val apiClient = ApiClient()
 apiClient.setCredentials("USERNAME", "PASSWORD")
@@ -474,7 +474,7 @@ Lists registered data tables and the Apache Fineract Core application table they
 // Import classes:
 //import org.openapitools.client.*
 //import org.openapitools.client.infrastructure.*
-//import org.openapitools.client.models.*
+//import org.mifos.fineract.client.models.*
 
 val apiClient = ApiClient()
 apiClient.setCredentials("USERNAME", "PASSWORD")
@@ -516,7 +516,7 @@ Query values from a registered data table.
 // Import classes:
 //import org.openapitools.client.*
 //import org.openapitools.client.infrastructure.*
-//import org.openapitools.client.models.*
+//import org.mifos.fineract.client.models.*
 
 val apiClient = ApiClient()
 apiClient.setCredentials("USERNAME", "PASSWORD")
@@ -564,7 +564,7 @@ Registers a data table with the Apache Fineract Core application table. This all
 // Import classes:
 //import org.openapitools.client.*
 //import org.openapitools.client.infrastructure.*
-//import org.openapitools.client.models.*
+//import org.mifos.fineract.client.models.*
 
 val apiClient = ApiClient()
 apiClient.setCredentials("USERNAME", "PASSWORD")
@@ -610,7 +610,7 @@ Modifies fields of a data table. If the apptableName parameter is passed, data t
 // Import classes:
 //import org.openapitools.client.*
 //import org.openapitools.client.infrastructure.*
-//import org.openapitools.client.models.*
+//import org.mifos.fineract.client.models.*
 
 val apiClient = ApiClient()
 apiClient.setCredentials("USERNAME", "PASSWORD")
@@ -654,7 +654,7 @@ Updates the row (if it exists) of the data table.
 // Import classes:
 //import org.openapitools.client.*
 //import org.openapitools.client.infrastructure.*
-//import org.openapitools.client.models.*
+//import org.mifos.fineract.client.models.*
 
 val apiClient = ApiClient()
 apiClient.setCredentials("USERNAME", "PASSWORD")
@@ -702,7 +702,7 @@ Updates the row (if it exists) of the data table.
 // Import classes:
 //import org.openapitools.client.*
 //import org.openapitools.client.infrastructure.*
-//import org.openapitools.client.models.*
+//import org.mifos.fineract.client.models.*
 
 val apiClient = ApiClient()
 apiClient.setCredentials("USERNAME", "PASSWORD")
