@@ -14,10 +14,10 @@ plugins {
     alias(libs.plugins.kotlin.multiplatform)
     alias(libs.plugins.kover)
     alias(libs.plugins.dokka)
-    alias(libs.plugins.maven)
     id("kotlinx-serialization")
     alias(libs.plugins.ksp)
     alias(libs.plugins.ktorfit)
+    alias(libs.plugins.maven)
 }
 
 kotlin {
@@ -65,6 +65,10 @@ dependencies {
     add("kspIosX64", libs.ktorfit.ksp)
     add("kspIosArm64", libs.ktorfit.ksp)
     add("kspIosSimulatorArm64", libs.ktorfit.ksp)
+}
+
+tasks.named("sourcesJar").configure {
+    dependsOn(tasks.named("kspCommonMainKotlinMetadata"))
 }
 
 // Maven publishing configuration
