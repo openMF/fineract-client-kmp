@@ -1,0 +1,84 @@
+# Project information
+site_name: 'Fineract KMP Client'
+site_description: 'A Kotlin Multiplatform and Ktor based Fineract Client Library that you can use to interact with the Apache Fineract 1.x Platform.'
+site_author: 'Sk Niyaj Ali'
+site_url: 'https://github.com/niyajali/fineract-client-cmp'
+remote_branch: gh-pages
+edit_uri: ""
+
+# Repository
+repo_name: 'Fineract KMP Client'
+repo_url: 'https://github.com/niyajali/fineract-client-cmp'
+
+# Configuration
+theme:
+  name: 'material'
+  language: 'en'
+#  favicon: 'images/logo.ico'
+#  logo: 'images/logo.svg'
+  palette:
+    - scheme: default
+      toggle:
+        icon: material/weather-night
+        name: Switch to dark mode
+      primary: white
+      accent: white
+    - scheme: slate
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to light mode
+      primary: red
+      accent: lime
+
+# Social
+extra:
+  social:
+    - icon: fontawesome/brands/github-alt
+      link: https://github.com/niyajali
+    - icon: fontawesome/brands/twitter
+      link: https://twitter.com/skniyajali1
+    - icon: fontawesome/brands/linkedin
+      link: https://www.linkedin.com/in/skniyajali/
+
+# Navigation
+nav:
+  - 'Overview': index.md
+  #  - 'Installation': installation.md
+  #  - 'Change Log': changelog.md
+  #  - 'Contributing': contributing.md
+  #  - 'Code of Conduct': code_of_conduct.md
+  - 'API Docs 🡕': kdoc/index.html
+
+# CSS
+extra_css:
+  - 'css/app.css'
+
+# Extensions
+markdown_extensions:
+  - toc:
+      permalink: true
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - admonition
+  - pymdownx.arithmatex:
+      generic: true
+  - footnotes
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.mark
+  - attr_list
+  - pymdownx.emoji:
+      emoji_index: !!python/name:materialx.emoji.twemoji
+      emoji_generator: !!python/name:materialx.emoji.to_svg
+
+      # Plugins
+plugins:
+  - search
+  - minify:
+      minify_html: true
+
+# Copyright
+copyright: |
+  &copy; 2024 <a href="https://github.com/niyajali"  target="_blank" rel="noopener">Sk Niyaj Ali</a>
