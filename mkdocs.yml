@@ -43,7 +43,7 @@ extra:
 # Navigation
 nav:
   - 'Overview': index.md
-  #  - 'Installation': installation.md
+  - 'Release': releasing.md
   #  - 'Change Log': changelog.md
   #  - 'Contributing': contributing.md
   #  - 'Code of Conduct': code_of_conduct.md
