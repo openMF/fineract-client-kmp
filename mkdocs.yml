@@ -55,25 +55,25 @@ extra_css:
 
 # Extensions
 markdown_extensions:
+  - smarty
+  - codehilite:
+      guess_lang: false
+  - footnotes
+  - meta
   - toc:
       permalink: true
-  - pymdownx.highlight:
-      anchor_linenums: true
+  - pymdownx.betterem:
+      smart_enable: all
+  - pymdownx.caret
   - pymdownx.inlinehilite
-  - pymdownx.snippets
-  - admonition
-  - pymdownx.arithmatex:
-      generic: true
-  - footnotes
-  - pymdownx.details
+  - pymdownx.magiclink
+  - pymdownx.smartsymbols
   - pymdownx.superfences
-  - pymdownx.mark
-  - attr_list
-  - pymdownx.emoji:
-      emoji_index: !!python/name:materialx.emoji.twemoji
-      emoji_generator: !!python/name:materialx.emoji.to_svg
+  - pymdownx.emoji
+  - tables
+  - admonition
 
-      # Plugins
+# Plugins
 plugins:
   - search
   - minify:
