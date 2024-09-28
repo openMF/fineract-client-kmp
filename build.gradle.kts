@@ -55,7 +55,7 @@ subprojects {
     plugins.withId("com.vanniktech.maven.publish.base") {
         configure<MavenPublishBaseExtension> {
             publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL, automaticRelease = true)
-            // signAllPublications()
+            signAllPublications()
 
             pom {
                 name = project.name
@@ -65,14 +65,14 @@ subprojects {
                 licenses {
                     license {
                         name = license
-                        url = "https://github.com/openMF/fineract-client-cmp/blob/main/LICENSE"
+                        url = "https://github.com/niyajali/fineract-client-cmp/blob/main/LICENSE"
                     }
                 }
                 developers {
                     developer {
-                        id = "openMF"
+                        id = "niyajali"
                         name = "Mifos Initiative"
-                        url = "https://github.com/openMF/"
+                        url = "https://github.com/niyajali/"
                     }
                 }
                 scm {
