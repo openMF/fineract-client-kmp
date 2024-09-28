@@ -77,7 +77,7 @@ jobs:
           PACKAGE_VERSION: ${{ env.PACKAGE_VERSION }}
         run: ./gradlew publish --stacktrace
 
-      - name: Prep docs
+      - name: Prep openapi-docs
         run: ./gradlew dokkaHtml
 
       - name: Set up Python
