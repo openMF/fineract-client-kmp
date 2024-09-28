@@ -39,6 +39,10 @@ apiValidation {
     nonPublicMarkers.add("kotlin.PublishedApi")
 }
 
+tasks.withType<org.jetbrains.dokka.gradle.DokkaTask>().configureEach {
+    outputDirectory.set(file("$rootDir/docs/kdoc"))
+}
+
 // dokka and version configuration.
 afterEvaluate {
     tasks.withType<DokkaTaskPartial>().configureEach {
