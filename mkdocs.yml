@@ -73,12 +73,5 @@ markdown_extensions:
   - tables
   - admonition
 
-# Plugins
-plugins:
-  - search
-  - minify:
-      minify_html: true
-
 # Copyright
-copyright: |
-  &copy; 2024 <a href="https://github.com/niyajali"  target="_blank" rel="noopener">Sk Niyaj Ali</a>
+copyright: 'Copyright &copy; 2024 Sk Niyaj Ali.'
