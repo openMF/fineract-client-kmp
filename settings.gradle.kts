@@ -16,3 +16,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "fineract-client-cmp"
 include(":fineract-client")
+include(":sample:composeApp")
