@@ -11,6 +11,10 @@ plugins {
     alias(libs.plugins.maven) apply false
     alias(libs.plugins.ksp) apply false
     alias(libs.plugins.dokka)
+    alias(libs.plugins.android.application) apply false
+    alias(libs.plugins.android.library) apply false
+    alias(libs.plugins.compose.multiplatform) apply false
+    alias(libs.plugins.compose.compiler) apply false
 }
 
 // Maven publishing configuration
@@ -22,14 +26,14 @@ val license: String by project
 val creationYear: String by project
 val githubRepo: String by project
 
-allprojects {
-    group = mavenGroup
-    version = currentVersion
-
-    repositories {
-        mavenCentral()
-    }
-}
+//allprojects {
+//    group = mavenGroup
+//    version = currentVersion
+//
+//    repositories {
+//        mavenCentral()
+//    }
+//}
 
 apiValidation {
     @OptIn(kotlinx.validation.ExperimentalBCVApi::class)
