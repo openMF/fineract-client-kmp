@@ -118,3 +118,10 @@ compose.desktop {
         }
     }
 }
+
+compose.resources {
+    publicResClass = true
+    generateResClass = always
+    packageOfResClass = "sample.composeApp.generated.resources"
+}
+
