@@ -26,15 +26,6 @@ val license: String by project
 val creationYear: String by project
 val githubRepo: String by project
 
-//allprojects {
-//    group = mavenGroup
-//    version = currentVersion
-//
-//    repositories {
-//        mavenCentral()
-//    }
-//}
-
 apiValidation {
     @OptIn(kotlinx.validation.ExperimentalBCVApi::class)
     klib {
