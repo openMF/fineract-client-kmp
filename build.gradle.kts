@@ -32,7 +32,7 @@ apiValidation {
         enabled = true
     }
     nonPublicMarkers.add("kotlin.PublishedApi")
-    ignoredProjects += listOf("sample")
+    ignoredProjects += listOf("composeApp")
 }
 
 // dokka and version configuration.
