@@ -377,6 +377,7 @@ class FineractClient private constructor(
             return this
         }
 
+        @Deprecated("This method is deprecated and will be removed in a future release.")
         fun inSecure(insecure: Boolean): Builder {
             this.insecure = insecure
             return this
@@ -398,13 +399,15 @@ class FineractClient private constructor(
                     level = LogLevel.INFO
                 }
 
-                install(Auth) {
-                    basic {
-                        credentials {
-                            BasicAuthCredentials(
-                                username = loginUsername.toString(),
-                                password = loginPassword.toString(),
-                            )
+                if (listOf(loginUsername, loginPassword).all { it != null }) {
+                    install(Auth) {
+                        basic {
+                            credentials {
+                                BasicAuthCredentials(
+                                    username = loginUsername.toString(),
+                                    password = loginPassword.toString(),
+                                )
+                            }
                         }
                     }
                 }

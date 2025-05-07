@@ -7,8 +7,11 @@
  *
  * See https://github.com/openMF/mifos-mobile/LICENSE.md
  */
+@file:OptIn(ExperimentalWasmDsl::class)
+
 import com.vanniktech.maven.publish.JavadocJar
 import com.vanniktech.maven.publish.KotlinMultiplatform
+import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
@@ -41,17 +44,24 @@ kotlin {
         useEsModules()
     }
 
+    wasmJs {
+        nodejs()
+        browser()
+    }
+
     sourceSets {
         commonMain.dependencies {
             implementation(libs.kotlinx.datetime)
             implementation(libs.kotlinx.serialization)
+
             implementation(libs.ktor.client.core)
             implementation(libs.ktor.client.json)
+            implementation(libs.ktor.client.auth)
             implementation(libs.ktor.client.logging)
             implementation(libs.ktor.client.serialization)
             implementation(libs.ktor.client.content.negotiation)
-            implementation(libs.ktor.client.auth)
             implementation(libs.ktor.serialization.kotlinx.json)
+
             implementation(libs.ktorfit.lib)
             implementation(libs.ktorfit.converters.call)
             implementation(libs.ktorfit.converters.flow)
