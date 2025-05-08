@@ -1,3 +1,4 @@
+import com.vanniktech.maven.publish.JavadocJar
 import com.vanniktech.maven.publish.MavenPublishBaseExtension
 import com.vanniktech.maven.publish.SonatypeHost
 import org.jetbrains.dokka.gradle.DokkaTaskPartial
@@ -21,6 +22,10 @@ val desc: String by project
 val license: String by project
 val creationYear: String by project
 val githubRepo: String by project
+
+val developerName: String by project
+val developerId: String by project
+val developerUrl: String by project
 
 allprojects {
     group = mavenGroup
@@ -62,32 +67,31 @@ subprojects {
         configure<MavenPublishBaseExtension> {
             publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL, automaticRelease = true)
             signAllPublications()
+            configureBasedOnAppliedPlugins()
 
             pom {
-                name = project.name
-                description = desc
-                inceptionYear = creationYear
-                url = "https://github.com/$githubRepo"
+                name.set(project.name)
+                description.set(desc)
+                inceptionYear.set(creationYear)
+                url.set("https://github.com/$githubRepo")
                 licenses {
                     license {
-                        name = license
-                        url = "https://github.com/niyajali/fineract-client-cmp/blob/main/LICENSE"
+                        name.set(license)
+                        url.set("https://github.com/$githubRepo/blob/main/LICENSE")
+                        distribution.set("https://github.com/$githubRepo/blob/main/LICENSE")
                     }
                 }
                 developers {
                     developer {
-                        id = "niyajali"
-                        name = "Mifos Initiative"
-                        url = "https://github.com/niyajali/"
+                        id.set(developerId)
+                        name.set(developerName)
+                        url.set(developerUrl)
                     }
                 }
                 scm {
-                    url = "https://github.com/$githubRepo.git"
-                    connection = "scm:git:git://github.com/$githubRepo.git"
-                    developerConnection = "scm:git:git://github.com/$githubRepo.git"
-                }
-                issueManagement {
-                    url = "https://github.com/$githubRepo/issues"
+                    url.set("https://github.com/$githubRepo.git")
+                    connection.set("scm:git:git://github.com/$githubRepo.git")
+                    developerConnection.set("scm:git:git://github.com/$githubRepo.git")
                 }
             }
         }

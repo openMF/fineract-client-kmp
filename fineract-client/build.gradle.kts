@@ -95,18 +95,6 @@ val mavenGroup: String by project
 val defaultVersion: String by project
 val currentVersion = System.getenv("PACKAGE_VERSION") ?: defaultVersion
 
-group = mavenGroup
-version = currentVersion
-
 mavenPublishing {
     coordinates(mavenGroup, artifactId, currentVersion)
-
-    // sources publishing is always enabled by the Kotlin Multiplatform plugin
-    configure(
-        KotlinMultiplatform(
-            // - `JavadocJar.Dokka("dokkaHtml")` when using Kotlin with Dokka,
-            // where `dokkaHtml` is the name of the Dokka task that should be used as input
-            javadocJar = JavadocJar.Dokka("dokkaHtml")
-        )
-    )
 }
