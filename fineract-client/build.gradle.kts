@@ -18,14 +18,12 @@ plugins {
     alias(libs.plugins.kover)
     alias(libs.plugins.dokka)
     id("kotlinx-serialization")
+    alias(libs.plugins.maven)
     alias(libs.plugins.ksp)
     alias(libs.plugins.ktorfit)
-    alias(libs.plugins.maven)
 }
 
 kotlin {
-    applyDefaultHierarchyTemplate()
-
     listOf(
         iosX64(),
         iosArm64(),
@@ -39,15 +37,17 @@ kotlin {
 
     jvm()
 
-    js {
-        browser()
-        useEsModules()
+    js(IR){
+        nodejs()
+        binaries.executable()
     }
 
     wasmJs {
         nodejs()
         browser()
     }
+
+    applyDefaultHierarchyTemplate()
 
     sourceSets {
         commonMain.dependencies {
@@ -72,6 +72,8 @@ kotlin {
 dependencies {
     add("kspCommonMainMetadata", libs.ktorfit.ksp)
     add("kspJvm", libs.ktorfit.ksp)
+    add("kspJs", libs.ktorfit.ksp)
+    add("kspWasmJs", libs.ktorfit.ksp)
     add("kspIosX64", libs.ktorfit.ksp)
     add("kspIosArm64", libs.ktorfit.ksp)
     add("kspIosSimulatorArm64", libs.ktorfit.ksp)
@@ -79,6 +81,12 @@ dependencies {
 
 tasks.named("sourcesJar").configure {
     dependsOn(tasks.named("kspCommonMainKotlinMetadata"))
+}
+
+tasks.configureEach {
+    if (name.startsWith("kspKotlin") && name != "kspCommonMainKotlinMetadata") {
+        dependsOn("kspCommonMainKotlinMetadata")
+    }
 }
 
 // Maven publishing configuration
