@@ -6,12 +6,18 @@ on:
       version:
         description: 'Version to publish'
         required: true
+      auto-release:
+        description: 'Auto Release'
+        required: true
+        type: boolean
+        default: false
 
 env:
   PACKAGE_VERSION: ${{ github.event.inputs.version }}
 
 jobs:
   publish:
+    name: Publish Into Maven Central
     runs-on: macos-latest
     permissions:
       contents: write
@@ -23,16 +29,17 @@ jobs:
         uses: openMF/mifos-x-actionhub-publish-library-kmp@v1.0.0
         with:
           publish-dokka-docs: false
-          version: ${{ github.event.inputs.version }}
+          version: ${{ inputs.version }}
           maven-central-username: ${{ secrets.MAVEN_CENTRAL_USERNAME }}
           maven-central-password: ${{ secrets.MAVEN_CENTRAL_PASSWORD }}
           gpg-key-id: ${{ secrets.GPG_SIGNING_KEY_ID }}
           gpg-key: ${{ secrets.GPG_SIGNING_KEY }}
           gpg-passphrase: ${{ secrets.GPG_PASSPHRASE }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
+          gradle-publish-task: ${{ inputs.auto-release && 'publishAndReleaseToMavenCentral' || 'publishAllPublicationsToMavenCentralRepository' }}
 
   publish_docs:
-    name: Run and publish Docs to GitHub Pages
+    name: Publish Docs to GitHub Pages
     runs-on: macos-14
     steps:
       - name: Checkout
