@@ -67,7 +67,6 @@ subprojects {
         configure<MavenPublishBaseExtension> {
             publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL, automaticRelease = true)
             signAllPublications()
-            configureBasedOnAppliedPlugins()
 
             pom {
                 name.set(project.name)
