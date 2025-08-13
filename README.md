@@ -1,117 +1,313 @@
-# Fineract Client Kotlin Multiplatform
+# Fineract API Client Library ![Maven Central](https://img.shields.io/maven-central/v/io.github.niyajali/fineract-client-kmp) [![License: MPL 2.0](https://img.shields.io/badge/License-MPL%202.0-brightgreen.svg)](https://opensource.org/licenses/MPL-2.0)
 
-Fineract Client KMP is a Kotlin Multiplatform library built with Ktorfit that enables interaction with the Apache Fineract 1.x Platform. This library includes all necessary services and data payload models, along with a Ktorfit instance used by the [Fineract Client KMP SDK](https://github.com/openMF/fineract-client-kmp-sdk).
+## Overview
 
-All services and payload models in this library are generated using the OpenAPI Generator. However, `FineractClient.kt` is not a generated file. it is responsible for creating the Ktorfit instance and serves as the entry point for accessing the services within the Fineract Client KMP SDK.
+The `FineractClient` is a Kotlin client library for interacting with Apache Fineract's REST APIs. It provides a
+comprehensive wrapper around Ktorfit for making HTTP requests to Fineract servers and accessing various financial
+services endpoints.
 
-![Kotlin](https://img.shields.io/badge/kotlin-%237F52FF.svg?style=flat-square&logo=kotlin&logoColor=white)
-![Kotlin Multiplatform](https://img.shields.io/badge/Kotlin%20Multiplatform-4c8d3f?style=flat-square&logo=kotlin&logoColor=white)
-![Open Source](https://img.shields.io/badge/Open%20Source-Yes-brightgreen)
-![GSoC](https://img.shields.io/badge/GSoC-yellow)
-[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
-[![GitHub license](https://img.shields.io/badge/License-MPL_2.0-brightgreen.svg)](https://github.com/openMF/fineract-client-kmp/tree/main)
-[![GitHub release](https://img.shields.io/badge/release-v1.0.2-blue)](https://github.com/openMF/fineract-client-kmp/releases/)
-[![GitHub issues](https://img.shields.io/github/issues/Naereen/StrapDown.js.svg)](https://github.com/openMF/fineract-client-kmp/issues/)
-[![Slack](https://img.shields.io/badge/Slack-4A154B?style=flat-square&logo=slack&logoColor=white)](https://join.slack.com/t/mifos/shared_invite/zt-2wvi9t82t-DuSBdqdQVOY9fsqsLjkKPA)
+## Add Dependency
+
+### Gradle
+
+To use the library in your Gradle project, follow the steps below:
+
+```
+implementation("io.github.niyajali:fineract-client-kmp:1.0.6")
+```
 
 ## Architecture
 
-The library is organized into three main packages inside the fineract-client module:
+The client follows a **Builder pattern** for configuration and provides type-safe access to Fineract's API endpoints
+through generated interfaces.
 
-- <b>models -</b> Contains all the payloads, including request and response models for various services.
+## Core Components
 
-- <b>apis -</b> Includes all service interfaces, such as ClientService, AuthService, etc.
+### FineractClient Class
 
-- <b>infrastructure -</b> Contains the [FineractClient.kt](https://github.com/openMF/fineract-client-kmp/blob/main/fineract-client/src/commonMain/kotlin/org/mifos/fineract/client/infrastructure/FineractClient.kt) file, which initializes the Ktorfit instance and exposes all services to the Fineract Client KMP SDK.
+```kotlin
+class FineractClient private constructor(
+    private val ktorfit: Ktorfit,
+) {
+    // API endpoint accessors
+    val accountingClosures = ktorfit.createAccountingClosureApi()
+    val accountingRules = ktorfit.createAccountingRulesApi()
+    val accountNumberFormats = ktorfit.createAccountNumberFormatApi()
+    val accountTransfers = ktorfit.createAccountTransfersApi()
 
+    // Utility methods
+    fun baseURL(): String
+    fun httpClient(): HttpClient
+}
+```
 
-## Code Generation
-- Follow these steps to generate data models and services using OpenAPI Tools:
+#### Available API Endpoints
 
-### Install OpenAPI Generator CLI
-- Install NPM (Skip this step if you already have npm installed).
-- Install OpenAPI Generator CLI using npm:
-  ```cmd
-    npm install @openapitools/openapi-generator-cli -g
-  ```
+- **`accountingClosures`** - Manage accounting period closures
+- **`accountingRules`** - Handle accounting rules and configurations
+- **`accountNumberFormats`** - Manage account number formatting rules
+- **`accountTransfers`** - Process account-to-account transfers
 
-### Download fineract.yml File
-- Download the fineract.yml file from [Here](https://github.com/openMF/fineract-client-kmp/wiki/Download-fineract.yml-File) 
+#### Utility Methods
 
-### Generation
-- Once OpenAPI Generator CLI is installed, use the following command to generate the code:
+- **`baseURL()`** - Returns the configured base URL for the Fineract server
+- **`httpClient()`** - Provides access to the underlying HttpClient for advanced customizations
 
-    ```cmd
-        openapi-generator-cli generate \
-        -i "C:\Users\Aditya\Downloads\fineract.yaml" \
-        -o "C:\Users\Aditya\Desktop\MIFOS\web-app\packages\fineract-client\src" \
-        -g kotlin \
-        --library=jvm-retrofit2 \
-        --additional-properties=useCoroutines=true,returnPlainBody=true \
-        --skip-validate-spec
-    ```
-- Replace `-i "C:\Users\Aditya\Downloads\fineract.yaml"` with the actual path to your fineract.yml file.
+### Builder Class
 
-- Note: Back in 2024, when these data models and services were generated, Ktorfit support was not available. So, we generated them using Retrofit2 and later modified the services to use Ktorfit. In the future, before generating the code, check whether Ktorfit support is available.
+The Builder class provides a fluent API for configuring the FineractClient:
 
-## Quickstart Setup
+```kotlin
+class Builder internal constructor() {
+    fun baseURL(baseURL: String): Builder
+    fun tenant(tenant: String?): Builder
+    fun httpClient(httpClient: HttpClient): Builder
+    @Deprecated
+    fun inSecure(insecure: Boolean): Builder
+    fun build(): FineractClient
+}
+```
 
-### Installation
+## Usage Examples
 
-Add dependency in the `build.gradle`.
+### Basic Client Setup
 
-- Kts
+```kotlin
+import io.ktor.client.*
+import io.ktor.client.engine.cio.*
+import io.ktor.client.plugins.auth.*
+import io.ktor.client.plugins.auth.providers.*
+import io.ktor.client.plugins.contentnegotiation.*
+import io.ktor.serialization.kotlinx.json.*
 
-  ```kts
-    dependencies {
-        implementation("com.github.openMF:fineract-client-kmp:$version")
+// Create HTTP client with authentication
+val httpClient = HttpClient(CIO) {
+    install(ContentNegotiation) {
+        json()
     }
-  ```
-
-- Groovy
-  ```groovy
-    dependencies {
-        implementation 'com.github.openMF:fineract-client-kmp:$version'
-    }
-  ```
-
-Add this in your root `settings.gradle`.
-
-- Kts
-
-  ```Kotlin
-    dependencyResolutionManagement {
-        repositories {
-            maven {
-                setUrl("https://jitpack.io")
+    install(Auth) {
+        basic {
+            credentials {
+                BasicAuthCredentials(username = "admin", password = "password")
             }
         }
     }
-  ```
+}
 
-- Groovy
+// Build the Fineract client
+val fineractClient = FineractClient.builder()
+    .baseURL("https://your-fineract-server.com/fineract-provider/api/v1")
+    .tenant("default")
+    .httpClient(httpClient)
+    .build()
+```
 
-  ```groovy
-    allprojects {
-        repositories {
-            maven { url 'https://jitpack.io' }
+### Advanced HTTP Client Configuration
+
+```kotlin
+val customHttpClient = HttpClient(CIO) {
+    install(ContentNegotiation) {
+        json(Json {
+            ignoreUnknownKeys = true
+            isLenient = true
+        })
+    }
+
+    install(Auth) {
+        bearer {
+            loadTokens {
+                BearerTokens("your-access-token", "your-refresh-token")
+            }
         }
     }
-  ```
 
-## How to Contribute
+    install(Logging) {
+        level = LogLevel.INFO
+    }
 
-Thank you for your interest in contributing to the Fineract Client KMP project by Mifos! We welcome all contributions and encourage you to follow these guidelines to ensure a smooth and efficient collaboration process.
-To get started, please refer to the [Contribution Guide](https://github.com/openMF/fineract-client-kmp/wiki/How-to-Contribute) for detailed instructions on how to contribute to the project.
+    // Custom timeout settings
+    install(HttpTimeout) {
+        requestTimeoutMillis = 30000
+        connectTimeoutMillis = 10000
+    }
+}
 
-## Wiki
+val client = FineractClient.builder()
+    .baseURL("https://your-fineract-server.com/fineract-provider/api/v1")
+    .tenant("production")
+    .httpClient(customHttpClient)
+    .build()
+```
 
-Please visit our [Wiki](https://github.com/openMF/fineract-client-kmp/wiki) page for a detailed overview of the project's architecture and guidelines. Explore further to gain a deeper understanding of our project.
+### Using API Endpoints
 
-## Contributors
+```kotlin
+// Example: Working with accounting closures
+suspend fun manageAccountingClosures(client: FineractClient) {
+    try {
+        // Get all accounting closures
+        val closures = client.accountingClosures.getAllClosures()
+        println("Found ${closures.size} accounting closures")
 
-Special thanks to the incredible code contributors who continue to drive this project forward.
+        // Create a new accounting closure
+        val newClosure = CreateAccountingClosureRequest(
+            officeId = 1,
+            closingDate = LocalDate.now().format(DateTimeFormatter.ofPattern(FineractClient.DATE_FORMAT)),
+            comments = "Monthly closure"
+        )
 
-<a href="https://github.com/openMF/fineract-client-kmp/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=openMF/fineract-client-kmp" />
-</a>
+        val createdClosure = client.accountingClosures.createClosure(newClosure)
+        println("Created closure with ID: ${createdClosure.resourceId}")
+
+    } catch (e: Exception) {
+        println("Error managing accounting closures: ${e.message}")
+    }
+}
+
+// Example: Working with account transfers
+suspend fun processAccountTransfer(client: FineractClient) {
+    try {
+        val transferRequest = AccountTransferRequest(
+            fromAccountId = 123,
+            toAccountId = 456,
+            transferAmount = 1000.00,
+            transferDate = LocalDate.now().format(DateTimeFormatter.ofPattern(FineractClient.DATE_FORMAT)),
+            transferDescription = "Monthly payment"
+        )
+
+        val transfer = client.accountTransfers.create(transferRequest)
+        println("Transfer completed: ${transfer.resourceId}")
+
+    } catch (e: Exception) {
+        println("Transfer failed: ${e.message}")
+    }
+}
+```
+
+### Date Formatting
+
+The client provides a constant for consistent date formatting across API calls:
+
+```kotlin
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+
+val currentDate = LocalDate.now()
+val formattedDate = currentDate.format(DateTimeFormatter.ofPattern(FineractClient.DATE_FORMAT))
+// Result: "2025-05-31"
+
+// Use in API requests
+val request = SomeApiRequest(
+    date = formattedDate,
+    // other fields...
+)
+```
+
+### Error Handling Best Practices
+
+```kotlin
+suspend fun robustApiCall(client: FineractClient) {
+    try {
+        val result = client.accountingRules.getAllRules()
+        // Process successful result
+        result.forEach { rule ->
+            println("Rule: ${rule.name} - ${rule.description}")
+        }
+
+    } catch (e: ClientRequestException) {
+        // Handle 4xx errors (client errors)
+        println("Client error (${e.response.status}): ${e.message}")
+
+    } catch (e: ServerResponseException) {
+        // Handle 5xx errors (server errors)
+        println("Server error (${e.response.status}): ${e.message}")
+
+    } catch (e: Exception) {
+        // Handle other network/parsing errors
+        println("Unexpected error: ${e.message}")
+    }
+}
+```
+
+### Multi-tenant Configuration
+
+```kotlin
+class FineractClientManager {
+    private val clients = mutableMapOf<String, FineractClient>()
+
+    fun getClientForTenant(tenant: String): FineractClient {
+        return clients.getOrPut(tenant) {
+            FineractClient.builder()
+                .baseURL("https://your-fineract-server.com/fineract-provider/api/v1")
+                .tenant(tenant)
+                .httpClient(createHttpClientForTenant(tenant))
+                .build()
+        }
+    }
+
+    private fun createHttpClientForTenant(tenant: String): HttpClient {
+        return HttpClient(CIO) {
+            install(ContentNegotiation) { json() }
+            install(Auth) {
+                basic {
+                    credentials {
+                        // Load tenant-specific credentials
+                        BasicAuthCredentials(
+                            username = loadUsernameForTenant(tenant),
+                            password = loadPasswordForTenant(tenant)
+                        )
+                    }
+                }
+            }
+        }
+    }
+}
+
+// Usage
+val clientManager = FineractClientManager()
+val productionClient = clientManager.getClientForTenant("production")
+val stagingClient = clientManager.getClientForTenant("staging")
+```
+
+## Configuration Options
+
+### Required Configuration
+
+- **`baseURL`** - The base URL of your Fineract server
+- **`httpClient`** - Configured HttpClient with authentication
+
+### Optional Configuration
+
+- **`tenant`** - Fineract tenant identifier (for multi-tenant setups)
+- **`inSecure`** - ⚠️ **Deprecated** - Use proper SSL configuration in HttpClient instead
+
+## Best Practices
+
+1. **Reuse Client Instances** - Create one client per tenant and reuse it across your application
+2. **Proper Authentication** - Always configure authentication in the HttpClient
+3. **Error Handling** - Implement comprehensive error handling for network and API errors
+4. **Date Formatting** - Use `FineractClient.DATE_FORMAT` constant for consistent date formatting
+5. **Resource Management** - Properly close HttpClient resources when shutting down
+6. **SSL Configuration** - Use proper SSL settings instead of the deprecated `inSecure` option
+
+## Thread Safety
+
+The FineractClient is thread-safe and can be safely used from multiple coroutines concurrently. The underlying Ktorfit
+and HttpClient are designed for concurrent use.
+
+## Dependencies
+
+Ensure you have the following dependencies in your project:
+
+```kotlin
+// build.gradle.kts
+dependencies {
+    implementation("io.ktor:ktor-client-core:$ktor_version")
+    implementation("io.ktor:ktor-client-cio:$ktor_version")
+    implementation("io.ktor:ktor-client-content-negotiation:$ktor_version")
+    implementation("io.ktor:ktor-client-auth:$ktor_version")
+    implementation("io.ktor:ktor-serialization-kotlinx-json:$ktor_version")
+    implementation("de.jensklingenberg.ktorfit:ktorfit-lib:$ktorfit_version")
+    // Add other Fineract client dependencies
+}
+```

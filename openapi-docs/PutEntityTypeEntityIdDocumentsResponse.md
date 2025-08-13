@@ -1,0 +1,12 @@
+
+# PutEntityTypeEntityIdDocumentsResponse
+
+## Properties
+| Name | Type | Description | Notes |
+| ------------ | ------------- | ------------- | ------------- |
+| **changes** | [**kotlin.Any**](.md) |  |  [optional] |
+| **resourceId** | **kotlin.Long** |  |  [optional] |
+| **resourceIdentifier** | **kotlin.String** |  |  [optional] |
+
+
+

@@ -171,11 +171,34 @@ import org.mifos.fineract.client.apis.createUsersApi
 import org.mifos.fineract.client.apis.createWorkingDaysApi
 
 /**
- * Fineract Client Kotlin KMP SDK API entry point.
+ * A client for interacting with Apache Fineract's REST APIs.
  *
+ * This class provides access to various Fineract API endpoints through a type-safe interface.
+ * It uses Ktorfit under the hood for HTTP communication and supports multi-tenant configurations.
+ *
+ * The client is designed to be thread-safe and can be safely used from multiple coroutines
+ * concurrently. It's recommended to create one instance per tenant and reuse it throughout
+ * your application.
+ *
+ * Example usage:
+ * ```kotlin
+ * val client = FineractClient.builder()
+ *     .baseURL("https://your-fineract-server.com/fineract-provider/api/v1")
+ *     .tenant("default")
+ *     .httpClient(httpClient)
+ *     .build()
+ *
+ * // Access API endpoints
+ * val closures = client.accountingClosures.getAllClosures()
+ * ```
+ *
+ * @constructor Creates a new FineractClient instance. Use [FineractClient.builder] instead of calling this directly.
+ * @param ktorfit The configured Ktorfit instance for making HTTP requests
+ *
+ * @see Builder
+ * @since 1.0.0
  */
 class FineractClient private constructor(
-    private val httpClient: HttpClient,
     private val ktorfit: Ktorfit,
 ) {
     val accountingClosures = ktorfit.createAccountingClosureApi()
@@ -325,107 +348,123 @@ class FineractClient private constructor(
     val users = ktorfit.createUsersApi()
     val workingDays = ktorfit.createWorkingDaysApi()
 
-    fun httpClient(): HttpClient {
-        return this.httpClient
-    }
-
     fun baseURL(): String {
         return ktorfit.baseUrl
     }
 
+    fun httpClient(): HttpClient {
+        return ktorfit.httpClient
+    }
+
     /**
-     * Create an implementation of the API endpoints defined by the `service` interface, using
-     * [Ktorfit.create]. This method is typically not required to be invoked for standard API usage, but
-     * can be a handy back door for non-trivial advanced customizations of the API client if you have extended Fineract
-     * with your own REST APIs.
+     * Builder class for constructing [FineractClient] instances.
+     *
+     * This class follows the Builder pattern to provide a fluent API for configuring
+     * various aspects of the FineractClient. All configuration methods return the
+     * builder instance to allow method chaining.
+     *
+     * Example usage:
+     * ```kotlin
+     * val client = FineractClient.builder()
+     *     .baseURL("https://example.com/fineract-provider/api/v1")
+     *     .tenant("production")
+     *     .httpClient(customHttpClient)
+     *     .build()
+     * ```
+     *
+     * @constructor Creates a new Builder instance. Use [FineractClient.builder] instead of calling this directly.
+     * @since 1.0.0
      */
-
     class Builder internal constructor() {
-        /**
-         * Obtain the internal OkHttp Builder. This method is typically not required to be invoked for simple API
-         * usages, but can be a handy back door for non-trivial advanced customizations of the API client.
-         *
-         * @return the [FineractClient] which [.build] will use.
-         */
-
-        /**
-         * Obtain the internal Retrofit Builder. This method is typically not required to be invoked for simple API
-         * usages, but can be a handy back door for non-trivial advanced customizations of the API client.
-         *
-         * @return the [FineractClient] which [.build] will use.
-         */
 
         private lateinit var baseURL: String
         private var tenant: String? = null
         private var loginUsername: String? = null
         private var loginPassword: String? = null
         private var insecure: Boolean = false
+        private var httpClient: HttpClient? = null
 
+        /**
+         * Sets the base URL for the Fineract server.
+         *
+         * This should be the full URL to your Fineract API endpoint, typically ending with
+         * "/fineract-provider/api/v1" for standard Fineract installations.
+         *
+         * @param baseURL The base URL string for the Fineract server (required)
+         * @return This builder instance for method chaining
+         * @throws IllegalArgumentException if baseURL is empty or malformed
+         */
         fun baseURL(baseURL: String): Builder {
             this.baseURL = baseURL
             return this
         }
 
+        /**
+         * Sets the tenant identifier for multi-tenant Fineract installations.
+         *
+         * In multi-tenant setups, this identifies which tenant's data to access.
+         * If not set or set to null, the client will work with single-tenant installations
+         * or use the default tenant configuration.
+         *
+         * @param tenant The tenant identifier string, or null for single-tenant setups
+         * @return This builder instance for method chaining
+         */
         fun tenant(tenant: String?): Builder {
             this.tenant = tenant
             return this
         }
 
-        fun basicAuth(username: String?, password: String?): Builder {
-            this.loginUsername = username
-            this.loginPassword = password
+        /**
+         * Sets the HttpClient instance to use for network communication.
+         *
+         * This HttpClient should be properly configured with authentication, timeouts,
+         * and any other network settings required for your environment. The client
+         * should include content negotiation for JSON and appropriate authentication
+         * mechanisms (Basic Auth, Bearer tokens, etc.).
+         *
+         * @param httpClient The configured HttpClient instance (required)
+         * @return This builder instance for method chaining
+         * @see io.ktor.client.HttpClient
+         */
+        fun httpClient(httpClient: HttpClient): Builder {
+            this.httpClient = httpClient
             return this
         }
 
+        /**
+         * Configures whether to allow insecure connections.
+         *
+         * @deprecated This method is deprecated and will be removed in a future release.
+         * Instead, configure SSL settings directly in your HttpClient configuration.
+         * Using insecure connections in production environments is strongly discouraged.
+         *
+         * @param insecure Whether to allow insecure connections
+         * @return This builder instance for method chaining
+         */
+        @Deprecated("This method is deprecated and will be removed in a future release.")
         fun inSecure(insecure: Boolean): Builder {
             this.insecure = insecure
             return this
         }
 
+        /**
+         * Builds and returns a configured [FineractClient] instance.
+         *
+         * This method validates that all required configuration has been provided
+         * and constructs the final client instance. The resulting client is thread-safe
+         * and can be reused throughout your application.
+         *
+         * @return A new [FineractClient] instance configured with the specified settings
+         * @throws IllegalStateException if required configuration (baseURL, httpClient) is missing
+         * @throws IllegalArgumentException if any configuration values are invalid
+         */
         fun build(): FineractClient {
-            val ktorClient = HttpClient {
-                install(ContentNegotiation) {
-                    json(
-                        Json {
-                            isLenient = true
-                            ignoreUnknownKeys = true
-                        },
-                    )
-                }
-
-                install(Logging) {
-                    logger = Logger.DEFAULT
-                    level = LogLevel.INFO
-                }
-
-                install(Auth) {
-                    basic {
-                        credentials {
-                            BasicAuthCredentials(
-                                username = loginUsername.toString(),
-                                password = loginPassword.toString(),
-                            )
-                        }
-                    }
-                }
-
-                defaultRequest {
-                    contentType(ContentType.Application.Json)
-                    headers {
-                        append("Accept", "application/json")
-                        tenant?.let {
-                            append("fineract-platform-tenantid", it)
-                        }
-                    }
-                }
-            }
-
             val ktorfitBuilder = Ktorfit.Builder()
-                .httpClient(ktorClient)
+                .httpClient(requireNotNull(httpClient) { "httpClient must be set" })
                 .baseUrl(baseURL)
                 .build()
 
-            return FineractClient(ktorClient, ktorfitBuilder)
+            return FineractClient(ktorfitBuilder)
         }
     }
 

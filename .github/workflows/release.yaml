@@ -6,15 +6,41 @@ on:
       version:
         description: 'Version to publish'
         required: true
+      auto-release:
+        description: 'Auto Release'
+        required: true
+        type: boolean
+        default: false
 
 env:
-  PACKAGE_VERSION: ${{ github.event_name == 'release' && github.event.release.tag_name || github.event.inputs.version }}
+  PACKAGE_VERSION: ${{ github.event.inputs.version }}
 
 jobs:
   publish:
-    name: Run and publish release to Maven Central
-    runs-on: macos-14
+    name: Publish Into Maven Central
+    runs-on: macos-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
 
+      - name: Publish to Maven Central
+        uses: openMF/mifos-x-actionhub-publish-library-kmp@v1.0.0
+        with:
+          publish-dokka-docs: false
+          version: ${{ inputs.version }}
+          maven-central-username: ${{ secrets.MAVEN_CENTRAL_USERNAME }}
+          maven-central-password: ${{ secrets.MAVEN_CENTRAL_PASSWORD }}
+          gpg-key-id: ${{ secrets.GPG_SIGNING_KEY_ID }}
+          gpg-key: ${{ secrets.GPG_SIGNING_KEY }}
+          gpg-passphrase: ${{ secrets.GPG_PASSPHRASE }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          gradle-publish-task: ${{ inputs.auto-release && 'publishAndReleaseToMavenCentral' || 'publishAllPublicationsToMavenCentralRepository' }}
+
+  publish_docs:
+    name: Publish Docs to GitHub Pages
+    runs-on: macos-14
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -36,58 +62,13 @@ jobs:
           path: |
             ~/.gradle/caches
             ~/.gradle/wrapper
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}-${{ hashFiles('**/gradle/wrapper/gradle-wrapper.properties') }}-${{ hashFiles('**/buildSrc/**/*.kt') }}
-          restore-keys: |
-            ${{ runner.os }}-gradle-
-
+          key: ${{ runner.os }}-gradle
+          restore-keys: ${{ runner.os }}-gradle
 
       - name: Cache konan
         uses: actions/cache@v3
-        with:
-          path: |
-            ~/.konan/cache
-            ~/.konan/dependencies
-            ~/.konan/kotlin-native-macos*
-            ~/.konan/kotlin-native-mingw*
-            ~/.konan/kotlin-native-windows*
-            ~/.konan/kotlin-native-linux*
-            ~/.konan/kotlin-native-prebuilt-macos*
-            ~/.konan/kotlin-native-prebuilt-mingw*
-            ~/.konan/kotlin-native-prebuilt-windows*
-            ~/.konan/kotlin-native-prebuilt-linux*
-          key: ${{ runner.os }}-konan-${{ hashFiles('**/*.gradle*') }}
-          restore-keys: |
-            ${{ runner.os }}-konan-
 
-
-      - name: Setup Xcode
-        uses: maxim-lobanov/setup-xcode@v1.6.0
-        with:
-          xcode-version: 'latest-stable'
-
-      - name: Make gradlew executable
-        run: chmod +x ./gradlew
-
-      - name: Publish
-        env:
-          ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.MAVEN_TOKEN_USERNAME }}
-          ORG_GRADLE_PROJECT_mavenCentralPassword: ${{ secrets.MAVEN_TOKEN_PASSWORD }}
-          ORG_GRADLE_PROJECT_signingInMemoryKey: ${{ secrets.GPG_SIGNING_KEY }}
-          ORG_GRADLE_PROJECT_signingInMemoryKeyPassword: ${{ secrets.GPG_PASSPHRASE }}
-          PACKAGE_VERSION: ${{ env.PACKAGE_VERSION }}
-        run: ./gradlew publishKotlinMultiplatformPublicationToMavenCentralRepository --stacktrace
-
-      - name: Finish Maven Central Release
-        env:
-          ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.MAVEN_TOKEN_USERNAME }}
-          ORG_GRADLE_PROJECT_mavenCentralPassword: ${{ secrets.MAVEN_TOKEN_PASSWORD }}
-          ORG_GRADLE_PROJECT_signingInMemoryKey: ${{ secrets.GPG_SIGNING_KEY }}
-          ORG_GRADLE_PROJECT_signingInMemoryKeyPassword: ${{ secrets.GPG_PASSPHRASE }}
-          PACKAGE_VERSION: ${{ env.PACKAGE_VERSION }}
-        run: ./gradlew releaseRepository --no-daemon --stacktrace
-
-
-      - name: Prep docs
+      - name: Prep openapi-docs
         run: ./gradlew dokkaHtml
 
       - name: Set up Python
@@ -99,7 +80,6 @@ jobs:
         run: |
           pip3 install -r .github/workflows/mkdocs-requirements.txt
           mkdocs build
-
 
       - name: Deploy 🚀
         if: success()

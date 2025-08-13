@@ -1,0 +1,21 @@
+
+# GetCentersCenterIdStatus
+
+## Properties
+| Name | Type | Description | Notes |
+| ------------ | ------------- | ------------- | ------------- |
+| **active** | **kotlin.Boolean** |  |  [optional] |
+| **approved** | **kotlin.Boolean** |  |  [optional] |
+| **closed** | **kotlin.Boolean** |  |  [optional] |
+| **code** | **kotlin.String** |  |  [optional] |
+| **description** | **kotlin.String** |  |  [optional] |
+| **id** | **kotlin.Long** |  |  [optional] |
+| **prematureClosed** | **kotlin.Boolean** |  |  [optional] |
+| **rejected** | **kotlin.Boolean** |  |  [optional] |
+| **submittedAndPendingApproval** | **kotlin.Boolean** |  |  [optional] |
+| **transferInProgress** | **kotlin.Boolean** |  |  [optional] |
+| **transferOnHold** | **kotlin.Boolean** |  |  [optional] |
+| **withdrawnByApplicant** | **kotlin.Boolean** |  |  [optional] |
+
+
+
