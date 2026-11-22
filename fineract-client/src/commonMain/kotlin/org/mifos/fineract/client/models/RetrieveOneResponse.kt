@@ -50,7 +50,7 @@ data class RetrieveOneResponse(
 
     val isLoanOfficer: kotlin.Boolean? = null,
 
-    @Contextual
+    @Serializable(with = StaffJoiningDateSerializer::class)
     val joiningDate: LocalDate? = null,
 
     val lastname: kotlin.String? = null,

@@ -50,6 +50,9 @@ kotlin {
     applyDefaultHierarchyTemplate()
 
     sourceSets {
+        commonTest.dependencies {
+            implementation(kotlin("test"))
+        }
         commonMain.dependencies {
             implementation(libs.kotlinx.datetime)
             implementation(libs.kotlinx.serialization)
